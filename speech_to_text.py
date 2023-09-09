@@ -1,13 +1,21 @@
 import speech_recognition as sr
-r = sr.Recognizer()
-with sr.Microphone() as source:
-    print("Say something!")
-    audio = r.listen(source)
 
-try:
-    text = r.recognize_google(audio, language="en")
-    print(text)
-except sr.UnknownValueError:
-    text = "Sorry, I could not understand your speech"
-except sr.RequestError as e:
-    text = "Error occurred: {0}".format(e)
+def arabic_speech_recognition():
+    recognizer = sr.Recognizer()
+
+    # Use the Arabic language model
+    with sr.Microphone() as source:
+        print("Speak something in Arabic...")
+        recognizer.adjust_for_ambient_noise(source)  # Adjust for ambient noise
+        audio = recognizer.listen(source)
+
+    try:
+        recognized_text = recognizer.recognize_google(audio, language="ar-SA")  # Recognize Arabic (Saudi Arabia)
+        print("You said:", recognized_text)
+    except sr.UnknownValueError:
+        print("Sorry, I could not understand your speech.")
+    except sr.RequestError as e:
+        print("Error occurred: {0}".format(e))
+
+if __name__ == "__main__":
+    arabic_speech_recognition()
