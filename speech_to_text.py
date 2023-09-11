@@ -1,5 +1,6 @@
 import speech_recognition as sr
-
+import streamlit as st
+st.Header("Hi, Goood Evening!")
 def arabic_speech_recognition():
     recognizer = sr.Recognizer()
 
