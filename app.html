@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-Time Speech Recognition Web App</title>
+</head>
+<body>
+    <h1>Real-Time Speech Recognition Web App</h1>
+    
+    <label for="languageSelect">Select Language:</label>
+    <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="ar">Arabic</option>
+    </select>
+    
+    <button id="startButton">Start Recognition</button>
+    <div id="result"></div>
+
+    <script>
+        const startButton = document.getElementById("startButton");
+        const resultDiv = document.getElementById("result");
+        const languageSelect = document.getElementById("languageSelect");
+        let recognition;
+
+        startButton.addEventListener("click", () => {
+            if (recognition) {
+                recognition.abort();
+            }
+
+            const selectedLanguage = languageSelect.value;
+
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+
+            recognition.lang = selectedLanguage === "ar" ? "ar-SA" : "en-US";
+
+            recognition.onstart = () => {
+                startButton.disabled = true;
+                resultDiv.innerHTML = "Listening...";
+            };
+
+            recognition.onend = () => {
+                startButton.disabled = false;
+                resultDiv.innerHTML += "<br>Recognition ended.";
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[event.results.length - 1][0].transcript;
+                resultDiv.innerHTML = `<p>${transcript}</p>`;
+            };
+
+            recognition.start();
+        });
+    </script>
+</body>
+</html>
