@@ -1,4 +1,4 @@
-SpeechRecognition
 streamlit
+SpeechRecognition
 portaudio==19.6.0
 pyaudio==0.2.11
