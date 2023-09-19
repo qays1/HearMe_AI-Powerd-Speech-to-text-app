@@ -28,7 +28,6 @@ if choice == "record voice":
 
         with sr.Microphone() as source:
             st.write(f"Speak something in {language}...")
-            recognizer.adjust_for_ambient_noise(source)  # Adjust for ambient noise
             audio = recognizer.listen(source)
 
             try:
