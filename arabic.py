@@ -22,23 +22,21 @@ if choice == "record voice":
 
 
     st.title("Voice Recording")
-    
-   
     def record_audio(language):
-        global is_recording
+        recognizer = sr.Recognizer()
         is_recording = True
-        
+
         with sr.Microphone() as source:
             st.write(f"Speak something in {language}...")
             recognizer.adjust_for_ambient_noise(source)  # Adjust for ambient noise
             audio = recognizer.listen(source)
-            
+
             try:
                 if language == "arabic":
-                    recognized_text = recognizer.recognize_google(audio, language="ar-SA")  # Recognize Arabic (Saudi Arabia)
-                    st.write("لقد قلت : ", recognized_text)
+                    recognized_text = recognizer.recognize_google(audio, language="ar-SA")
+                    st.write("لقد قلت: ", recognized_text)
                 else:
-                    recognized_text = recognizer.recognize_google(audio, language="en")  # Recognize English
+                    recognized_text = recognizer.recognize_google(audio, language="en")
                     st.write("You said: ", recognized_text)
             except sr.UnknownValueError:
                 st.write("Speech recognition could not understand audio")
@@ -46,7 +44,8 @@ if choice == "record voice":
                 st.write(f"Could not request results from Google Speech Recognition service; {e}")
 
         is_recording = False
-
+   
+    
     # User interface
     language = st.selectbox("Select your language", ["arabic", "English"])
 
